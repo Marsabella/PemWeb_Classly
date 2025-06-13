@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Classly: Your Campus Life, Organized</title>
+  <link href="../src/output.css" rel="stylesheet">
+</head>
+<body class="bg-[#0f0f0f] text-white h-screen overflow-hidden font-sans">
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <div class="w-64 bg-[#1a1a1a] border-r border-[#2d2d2d] p-8 overflow-y-auto">
+      <h2 class="text-white text-2xl font-bold mb-8 tracking-tight px-4">Classly</h2>
+      <div class="space-y-2">
+        <a href="#" class="block px-6 py-3 text-[#ccc] hover:bg-[#2d2d2d] hover:text-white rounded-md text-sm font-medium">Home</a>
+        <a href="class-schedule.html" class="block px-6 py-3 text-[#ccc] hover:bg-[#2d2d2d] hover:text-white rounded-md text-sm font-medium">Class Schedule</a>
+        <a href="index.html" class="block px-6 py-3 text-[#ccc] hover:bg-[#2d2d2d] hover:text-white rounded-md text-sm font-medium">Notes</a>
+        <a href="folder.html" class="block px-6 py-3 text-[#ccc] hover:bg-[#2d2d2d] hover:text-white rounded-md text-sm font-medium">Folders</a>
+        <a href="reminder.html" class="block px-6 py-3 text-[#ccc] hover:bg-[#2d2d2d] hover:text-white rounded-md text-sm font-medium">Reminders</a>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col bg-[#0f0f0f]">
+      <!-- Header -->
+      <header class="flex justify-between items-center px-8 py-6 border-b border-[#2d2d2d] bg-[#1a1a1a]">
+        <h1 id="welcome-text" class="text-2xl font-semibold">Good evening, Marsabella Fara Pramidya</h1>
+        <div class="flex-1 max-w-xl ml-8">
+          <input type="text" placeholder="Ask or find anything from your workspace..."
+            class="w-full px-4 py-2 rounded-md bg-[#2d2d2d] text-sm text-white placeholder-[#888] border border-[#404040]" />
+        </div>
+        <nav class="ml-8">
+          <ul class="flex gap-6 items-center text-sm font-medium text-[#ccc]">
+            <li><a href="#" class="hover:text-white">Help</a></li>
+            <li><a href="#" class="hover:text-white">Account</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <!-- Content Area -->
+      <main class="flex-1 p-8 overflow-y-auto">
+        <!-- Welcome Section -->
+        <section class="mb-8">
+          <div class="text-lg text-[#aaa] mb-4">Your Campus Life, Organized.</div>
+          <a href="#" class="inline-flex items-center px-6 py-3 bg-[#4f46e5] text-white text-sm font-semibold rounded-md hover:bg-[#3730a3] transition transform hover:-translate-y-1">Get Started</a>
+        </section>
+
+        <!-- Recently Visited -->
+        <section class="mt-12">
+          <h3 class="text-xl font-semibold flex items-center gap-2 mb-4">
+            <span class="w-4 h-4 rounded bg-[#666]"></span>
+            Recently visited
+          </h3>
+          <div id="recent-items" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div class="text-center text-[#666] p-12 border border-[#2d2d2d] rounded-lg bg-[#1a1a1a]">
+              <h4 class="text-lg text-[#888] mb-2">No recent activity yet</h4>
+              <p class="text-sm mb-4">Start by creating your first class schedule, note, or reminder</p>
+              <div class="space-x-2 text-[#4f46e5] text-sm font-medium">
+                <a href="schedule/class-schedule.html" class="hover:underline">Create Class Schedule</a> • 
+                <a href="notes/index.html" class="hover:underline">Take Notes</a> • 
+                <a href="reminders/reminder.html" class="hover:underline">Set Reminder</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Upcoming Events -->
+        <section class="mt-12">
+          <h3 class="text-xl font-semibold flex items-center gap-2 mb-4">
+            <span class="w-4 h-4 rounded bg-[#4f46e5]"></span>
+            Upcoming events
+          </h3>
+          <div id="upcoming-events" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div class="text-center text-[#666] p-12 border border-[#2d2d2d] rounded-lg bg-[#1a1a1a]">
+              <h4 class="text-lg text-[#888] mb-2">No upcoming events</h4>
+              <p class="text-sm">Your schedule and reminders will appear here</p>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
