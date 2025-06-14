@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Notes - Classly</title>
+  <title>Folders - Classly</title>
   <link href="./output.css" rel="stylesheet">
   <style>
     :root {
@@ -83,12 +83,12 @@
           </a>
         </li>
         <li>
-          <a href="notes.html" class="flex items-center px-4 py-2 text-custom-primary bg-accent rounded-md text-sm font-medium">
+          <a href="notes.html" class="flex items-center px-4 py-2 text-custom-secondary hover:bg-custom-tertiary hover:text-custom-primary rounded-md text-sm font-medium transition-colors">
             Notes
           </a>
         </li>
         <li>
-          <a href="folders.html" class="flex items-center px-4 py-2 text-custom-secondary hover:bg-custom-tertiary hover:text-custom-primary rounded-md text-sm font-medium transition-colors">
+          <a href="folders.html" class="flex items-center px-4 py-2 text-custom-primary bg-accent rounded-md text-sm font-medium">
             Folders
           </a>
         </li>
@@ -123,50 +123,30 @@
 
   <!-- Main Content -->
   <div class="flex-1 flex flex-col lg:ml-64">
-    <div class="p-6 lg:p-8">
-      <h1 class="text-2xl font-semibold mb-6 text-custom-primary">Your Notes</h1>
+    <!-- Header -->
+    <div class="flex items-center justify-between px-6 lg:px-8 py-6 border-b border-custom bg-custom-secondary">
+      <h1 class="text-2xl font-semibold text-custom-primary">Folder Materi</h1>
+      <input type="file" id="uploadInput" multiple class="hidden">
+      <button onclick="document.getElementById('uploadInput').click()" class="bg-accent bg-accent-hover text-white px-4 py-2 rounded-md text-sm font-medium flex items-center gap-2 transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+        </svg>
+        Upload Files
+      </button>
+    </div>
 
-      <!-- Notes Grid -->
-      <div id="notes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Content -->
+    <div class="flex-1 p-6 lg:p-8 overflow-y-auto">
+      <div id="files-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         <div class="text-center py-12 text-custom-tertiary col-span-full">
-          <p>No notes yet. Create your first note!</p>
-          <button onclick="openAddModal()" class="mt-4 bg-accent bg-accent-hover text-white px-4 py-2 rounded-md transition-colors">
-            Create Note
-          </button>
+          <svg class="w-16 h-16 mx-auto mb-4 text-custom-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v2H8V5z"/>
+          </svg>
+          <p class="text-lg mb-2">Your folder is empty</p>
+          <p class="text-sm">Start by uploading your study materials!</p>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- Floating Add Button -->
-  <button onclick="openAddModal()" class="fixed bottom-6 right-6 w-14 h-14 bg-accent text-white rounded-full shadow-lg bg-accent-hover transition-colors flex items-center justify-center z-40">
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-    </svg>
-  </button>
-
-  <!-- Add Note Modal -->
-  <div id="add-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-custom-secondary border border-custom p-6 rounded-lg w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
-      <h2 class="text-xl font-semibold mb-4 text-custom-primary">Create Note</h2>
-      <form id="note-form" class="space-y-4">
-        <div>
-          <label class="block text-sm font-medium mb-1 text-custom-secondary">Title:</label>
-          <input type="text" name="title" required class="w-full px-3 py-2 bg-custom-tertiary border border-custom rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-custom-primary">
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1 text-custom-secondary">Content:</label>
-          <textarea name="content" rows="8" required class="w-full px-3 py-2 bg-custom-tertiary border border-custom rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none text-custom-primary"></textarea>
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1 text-custom-secondary">Image (Optional):</label>
-          <input type="file" name="image" accept="image/*" class="w-full px-3 py-2 bg-custom-tertiary border border-custom rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-custom-primary">
-        </div>
-        <div class="flex gap-3 pt-4">
-          <button type="submit" class="flex-1 bg-accent bg-accent-hover text-white py-2 rounded-md transition-colors">Save Note</button>
-          <button type="button" onclick="closeAddModal()" class="flex-1 bg-custom-tertiary hover:bg-gray-700 text-custom-primary py-2 rounded-md transition-colors">Cancel</button>
-        </div>
-      </form>
     </div>
   </div>
 
@@ -223,21 +203,12 @@
     sidebarToggle.addEventListener('click', toggleSidebar);
     overlay.addEventListener('click', toggleSidebar);
 
-    // Modal functionality
-    function openAddModal() {
-      document.getElementById('add-modal').classList.remove('hidden');
-    }
-
-    function closeAddModal() {
-      document.getElementById('add-modal').classList.add('hidden');
-      document.getElementById('note-form').reset();
-    }
-
-    // Form submission
-    document.getElementById('note-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      alert('Note saved! (This will be connected to PHP backend)');
-      closeAddModal();
+    // File upload functionality
+    document.getElementById('uploadInput').addEventListener('change', function(e) {
+      const files = Array.from(e.target.files);
+      if (files.length > 0) {
+        alert(`${files.length} file(s) selected! (This will be connected to PHP backend)`);
+      }
     });
 
     function logout() {

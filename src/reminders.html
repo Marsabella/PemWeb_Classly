@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Notes - Classly</title>
+  <title>Reminders - Classly</title>
   <link href="./output.css" rel="stylesheet">
   <style>
     :root {
@@ -83,7 +83,7 @@
           </a>
         </li>
         <li>
-          <a href="notes.html" class="flex items-center px-4 py-2 text-custom-primary bg-accent rounded-md text-sm font-medium">
+          <a href="notes.html" class="flex items-center px-4 py-2 text-custom-secondary hover:bg-custom-tertiary hover:text-custom-primary rounded-md text-sm font-medium transition-colors">
             Notes
           </a>
         </li>
@@ -93,7 +93,7 @@
           </a>
         </li>
         <li>
-          <a href="reminders.html" class="flex items-center px-4 py-2 text-custom-secondary hover:bg-custom-tertiary hover:text-custom-primary rounded-md text-sm font-medium transition-colors">
+          <a href="reminders.html" class="flex items-center px-4 py-2 text-custom-primary bg-accent rounded-md text-sm font-medium">
             Reminders
           </a>
         </li>
@@ -122,51 +122,47 @@
   </div>
 
   <!-- Main Content -->
-  <div class="flex-1 flex flex-col lg:ml-64">
-    <div class="p-6 lg:p-8">
-      <h1 class="text-2xl font-semibold mb-6 text-custom-primary">Your Notes</h1>
+  <div class="flex-1 flex items-center justify-center lg:ml-64">
+    <div class="bg-custom-secondary border border-custom rounded-lg w-full max-w-xl mx-4 p-8">
+      <h1 class="text-2xl font-semibold text-center mb-8 text-custom-primary">Reminder Settings</h1>
 
-      <!-- Notes Grid -->
-      <div id="notes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="text-center py-12 text-custom-tertiary col-span-full">
-          <p>No notes yet. Create your first note!</p>
-          <button onclick="openAddModal()" class="mt-4 bg-accent bg-accent-hover text-white px-4 py-2 rounded-md transition-colors">
-            Create Note
-          </button>
+      <form id="reminder-form" class="space-y-6">
+        <div>
+          <label for="reminderTime" class="block text-sm font-medium mb-2 text-custom-secondary">Notification before class starts:</label>
+          <select id="reminderTime" class="w-full px-4 py-2 bg-custom-tertiary border border-custom rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-custom-primary">
+            <option value="30">30 minutes</option>
+            <option value="25">25 minutes</option>
+            <option value="20">20 minutes</option>
+            <option value="15">15 minutes</option>
+            <option value="10">10 minutes</option>
+            <option value="5">5 minutes</option>
+          </select>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Floating Add Button -->
-  <button onclick="openAddModal()" class="fixed bottom-6 right-6 w-14 h-14 bg-accent text-white rounded-full shadow-lg bg-accent-hover transition-colors flex items-center justify-center z-40">
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-    </svg>
-  </button>
+        <div>
+          <label for="repeat" class="block text-sm font-medium mb-2 text-custom-secondary">Repeat reminder until class starts?</label>
+          <select id="repeat" class="w-full px-4 py-2 bg-custom-tertiary border border-custom rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-custom-primary">
+            <option value="no">No, just once</option>
+            <option value="yes">Yes, keep repeating</option>
+          </select>
+        </div>
 
-  <!-- Add Note Modal -->
-  <div id="add-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-custom-secondary border border-custom p-6 rounded-lg w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
-      <h2 class="text-xl font-semibold mb-4 text-custom-primary">Create Note</h2>
-      <form id="note-form" class="space-y-4">
-        <div>
-          <label class="block text-sm font-medium mb-1 text-custom-secondary">Title:</label>
-          <input type="text" name="title" required class="w-full px-3 py-2 bg-custom-tertiary border border-custom rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-custom-primary">
+        <div id="repeatIntervalContainer" class="hidden">
+          <label for="repeatInterval" class="block text-sm font-medium mb-2 text-custom-secondary">Repeat every:</label>
+          <select id="repeatInterval" class="w-full px-4 py-2 bg-custom-tertiary border border-custom rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-custom-primary">
+            <option value="5">5 minutes</option>
+            <option value="10">10 minutes</option>
+          </select>
         </div>
-        <div>
-          <label class="block text-sm font-medium mb-1 text-custom-secondary">Content:</label>
-          <textarea name="content" rows="8" required class="w-full px-3 py-2 bg-custom-tertiary border border-custom rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none text-custom-primary"></textarea>
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1 text-custom-secondary">Image (Optional):</label>
-          <input type="file" name="image" accept="image/*" class="w-full px-3 py-2 bg-custom-tertiary border border-custom rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-custom-primary">
-        </div>
-        <div class="flex gap-3 pt-4">
-          <button type="submit" class="flex-1 bg-accent bg-accent-hover text-white py-2 rounded-md transition-colors">Save Note</button>
-          <button type="button" onclick="closeAddModal()" class="flex-1 bg-custom-tertiary hover:bg-gray-700 text-custom-primary py-2 rounded-md transition-colors">Cancel</button>
-        </div>
+
+        <button type="submit" class="w-full py-3 bg-accent bg-accent-hover text-white rounded-md font-medium transition-colors">
+          Save Settings
+        </button>
       </form>
+
+      <div id="savedMessage" class="hidden text-center mt-6 text-green-400 font-medium">
+        Reminder settings saved successfully!
+      </div>
     </div>
   </div>
 
@@ -223,21 +219,26 @@
     sidebarToggle.addEventListener('click', toggleSidebar);
     overlay.addEventListener('click', toggleSidebar);
 
-    // Modal functionality
-    function openAddModal() {
-      document.getElementById('add-modal').classList.remove('hidden');
-    }
+    // Reminder functionality
+    const repeat = document.getElementById('repeat');
+    const repeatIntervalContainer = document.getElementById('repeatIntervalContainer');
+    const form = document.getElementById('reminder-form');
+    const savedMessage = document.getElementById('savedMessage');
 
-    function closeAddModal() {
-      document.getElementById('add-modal').classList.add('hidden');
-      document.getElementById('note-form').reset();
-    }
+    repeat.addEventListener('change', function() {
+      if (repeat.value === 'yes') {
+        repeatIntervalContainer.classList.remove('hidden');
+      } else {
+        repeatIntervalContainer.classList.add('hidden');
+      }
+    });
 
-    // Form submission
-    document.getElementById('note-form').addEventListener('submit', function(e) {
+    form.addEventListener('submit', function(e) {
       e.preventDefault();
-      alert('Note saved! (This will be connected to PHP backend)');
-      closeAddModal();
+      savedMessage.classList.remove('hidden');
+      setTimeout(() => {
+        savedMessage.classList.add('hidden');
+      }, 3000);
     });
 
     function logout() {

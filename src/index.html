@@ -1,40 +1,128 @@
 <!doctype html>
-<html>
+<html class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Classly: Your Campus Life, Organized</title>
   <link href="./output.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8fafc;
+      --bg-tertiary: #f1f5f9;
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+      --text-tertiary: #94a3b8;
+      --border-color: #e2e8f0;
+      --accent-color: #4f46e5;
+      --accent-hover: #3730a3;
+    }
+
+    .dark {
+      --bg-primary: #0f0f0f;
+      --bg-secondary: #1a1a1a;
+      --bg-tertiary: #2d2d2d;
+      --text-primary: #ffffff;
+      --text-secondary: #cccccc;
+      --text-tertiary: #aaaaaa;
+      --border-color: #2d2d2d;
+      --accent-color: #4f46e5;
+      --accent-hover: #3730a3;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    .bg-custom-primary { background-color: var(--bg-primary); }
+    .bg-custom-secondary { background-color: var(--bg-secondary); }
+    .bg-custom-tertiary { background-color: var(--bg-tertiary); }
+    .text-custom-primary { color: var(--text-primary); }
+    .text-custom-secondary { color: var(--text-secondary); }
+    .text-custom-tertiary { color: var(--text-tertiary); }
+    .border-custom { border-color: var(--border-color); }
+    .bg-accent { background-color: var(--accent-color); }
+    .bg-accent-hover:hover { background-color: var(--accent-hover); }
+    .text-accent { color: var(--accent-color); }
+  </style>
 </head>
-<body class="bg-[#0f0f0f] text-white h-screen overflow-hidden font-sans">
+<body class="bg-custom-primary text-custom-primary h-screen overflow-hidden font-sans">
   <div class="flex h-screen">
     <!-- Sidebar -->
-    <div class="w-64 bg-[#1a1a1a] border-r border-[#2d2d2d] p-8 overflow-y-auto">
-      <h2 class="text-white text-2xl font-bold mb-8 tracking-tight px-4">Classly</h2>
-      <div class="space-y-2">
-        <a href="#" class="block px-6 py-3 text-[#ccc] hover:bg-[#2d2d2d] hover:text-white rounded-md text-sm font-medium">Home</a>
-        <a href="class-schedule.html" class="block px-6 py-3 text-[#ccc] hover:bg-[#2d2d2d] hover:text-white rounded-md text-sm font-medium">Class Schedule</a>
-        <a href="notes.html" class="block px-6 py-3 text-[#ccc] hover:bg-[#2d2d2d] hover:text-white rounded-md text-sm font-medium">Notes</a>
-        <a href="folder.html" class="block px-6 py-3 text-[#ccc] hover:bg-[#2d2d2d] hover:text-white rounded-md text-sm font-medium">Folders</a>
-        <a href="reminder.html" class="block px-6 py-3 text-[#ccc] hover:bg-[#2d2d2d] hover:text-white rounded-md text-sm font-medium">Reminders</a>
+    <div class="w-64 bg-custom-secondary border-r border-custom flex flex-col">
+      <!-- Logo -->
+      <div class="p-6">
+        <h2 class="text-custom-primary text-xl font-bold">Classly</h2>
+      </div>
+      
+      <!-- Navigation -->
+      <nav class="flex-1 px-4">
+        <ul class="space-y-1">
+          <li>
+            <a href="index.html" class="flex items-center px-4 py-2 text-custom-primary bg-accent rounded-md text-sm font-medium">
+              Home
+            </a>
+          </li>
+          <li>
+            <a href="class-schedule.html" class="flex items-center px-4 py-2 text-custom-secondary hover:bg-custom-tertiary hover:text-custom-primary rounded-md text-sm font-medium transition-colors">
+              Class Schedule
+            </a>
+          </li>
+          <li>
+            <a href="notes.html" class="flex items-center px-4 py-2 text-custom-secondary hover:bg-custom-tertiary hover:text-custom-primary rounded-md text-sm font-medium transition-colors">
+              Notes
+            </a>
+          </li>
+          <li>
+            <a href="folders.html" class="flex items-center px-4 py-2 text-custom-secondary hover:bg-custom-tertiary hover:text-custom-primary rounded-md text-sm font-medium transition-colors">
+              Folders
+            </a>
+          </li>
+          <li>
+            <a href="reminders.html" class="flex items-center px-4 py-2 text-custom-secondary hover:bg-custom-tertiary hover:text-custom-primary rounded-md text-sm font-medium transition-colors">
+              Reminders
+            </a>
+          </li>
+        </ul>
+      </nav>
+      
+      <!-- Theme Toggle & Logout -->
+      <div class="p-4 border-t border-custom space-y-2">
+        <button onclick="toggleTheme()" class="flex items-center w-full px-4 py-2 text-custom-secondary hover:bg-custom-tertiary hover:text-custom-primary rounded-md text-sm font-medium transition-colors">
+          <svg id="theme-icon-dark" class="w-4 h-4 mr-2 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+          </svg>
+          <svg id="theme-icon-light" class="w-4 h-4 mr-2 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+          </svg>
+          <span class="hidden dark:inline">Light Mode</span>
+          <span class="inline dark:hidden">Dark Mode</span>
+        </button>
+        <button onclick="logout()" class="flex items-center w-full px-4 py-2 text-custom-secondary hover:bg-custom-tertiary hover:text-custom-primary rounded-md text-sm font-medium transition-colors">
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+          </svg>
+          Logout
+        </button>
       </div>
     </div>
 
     <!-- Main Content -->
-    <div class="flex-1 flex flex-col bg-[#0f0f0f]">
+    <div class="flex-1 flex flex-col bg-custom-primary">
       <!-- Header -->
-      <header class="flex justify-between items-center px-8 py-6 border-b border-[#2d2d2d] bg-[#1a1a1a]">
-        <h1 id="welcome-text" class="text-2xl font-semibold">
-        Hallo, <span id="username">marsabella fara pramidya</span>
-      </h1>
-        <div class="flex-1 max-w-xl ml-8">
-          <input type="text" placeholder="Ask or find anything from your workspace..."
-            class="w-full px-4 py-2 rounded-md bg-[#2d2d2d] text-sm text-white placeholder-[#888] border border-[#404040]" />
-        </div>
-        <nav class="ml-8">
-          <ul class="flex gap-6 items-center text-sm font-medium text-[#ccc]">
-            <li><a href="#" class="hover:text-white">Help</a></li>
-            <li><a href="#" class="hover:text-white">Account</a></li>
+      <header class="flex justify-between items-center px-8 py-6 border-b border-custom bg-custom-secondary">
+        <h1 class="text-xl font-medium text-custom-primary">
+          Hallo, <span id="username">marsabella fara pramidya</span>
+        </h1>
+        <nav>
+          <ul class="flex gap-6 items-center text-sm font-medium text-custom-secondary">
+            <li>
+              <a href="#" class="hover:text-custom-primary transition-colors">Help</a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-custom-primary transition-colors">Account</a>
+            </li>
           </ul>
         </nav>
       </header>
@@ -42,44 +130,81 @@
       <!-- Content Area -->
       <main class="flex-1 p-8 overflow-y-auto">
         <!-- Welcome Section -->
-        <section class="mb-8">
-          <div class="text-lg text-[#aaa] mb-4">Your Campus Life, Organized.</div>
+        <section class="mb-12">
+          <div class="text-lg text-custom-tertiary mb-4">Your Campus Life, Organized.</div>
         </section>
 
         <!-- Recently Visited -->
-        <section class="mt-12">
-          <h3 class="text-xl font-semibold flex items-center gap-2 mb-4">
-            <span class="w-4 h-4 rounded bg-[#666]"></span>
+        <section class="mb-12">
+          <h3 class="text-lg font-medium flex items-center gap-3 mb-6 text-custom-primary">
+            <span class="w-4 h-4 rounded bg-custom-tertiary"></span>
             Recently visited
           </h3>
-          <div id="recent-items" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            <div class="text-center text-[#666] p-12 border border-[#2d2d2d] rounded-lg bg-[#1a1a1a]">
-              <h4 class="text-lg text-[#888] mb-2">No recent activity yet</h4>
-              <p class="text-sm mb-4">Start by creating your first class schedule, note, or reminder</p>
-              <div class="space-x-2 text-[#4f46e5] text-sm font-medium">
-                <a href="schedule/class-schedule.html" class="hover:underline">Create Class Schedule</a> • 
-                <a href="notes/index.html" class="hover:underline">Take Notes</a> • 
-                <a href="reminders/reminder.html" class="hover:underline">Set Reminder</a>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="bg-custom-secondary border border-custom rounded-lg p-8 text-center">
+              <h4 class="text-lg text-custom-secondary mb-3">No recent activity yet</h4>
+              <p class="text-sm text-custom-tertiary mb-6">Start by creating your first class schedule, note, or reminder</p>
+              <div class="space-x-2 text-accent text-sm font-medium">
+                <a href="class-schedule.html" class="hover:underline">Create Class Schedule</a>
+                <span class="text-custom-tertiary">•</span>
+                <a href="notes.html" class="hover:underline">Take Notes</a>
+                <span class="text-custom-tertiary">•</span>
+                <a href="reminders.html" class="hover:underline">Set Reminder</a>
               </div>
             </div>
           </div>
         </section>
 
         <!-- Upcoming Events -->
-        <section class="mt-12">
-          <h3 class="text-xl font-semibold flex items-center gap-2 mb-4">
-            <span class="w-4 h-4 rounded bg-[#4f46e5]"></span>
+        <section>
+          <h3 class="text-lg font-medium flex items-center gap-3 mb-6 text-custom-primary">
+            <span class="w-4 h-4 rounded bg-accent"></span>
             Upcoming events
           </h3>
-          <div id="upcoming-events" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            <div class="text-center text-[#666] p-12 border border-[#2d2d2d] rounded-lg bg-[#1a1a1a]">
-              <h4 class="text-lg text-[#888] mb-2">No upcoming events</h4>
-              <p class="text-sm">Your schedule and reminders will appear here</p>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="bg-custom-secondary border border-custom rounded-lg p-8 text-center">
+              <h4 class="text-lg text-custom-secondary mb-3">No upcoming events</h4>
+              <p class="text-sm text-custom-tertiary">Your schedule and reminders will appear here</p>
             </div>
           </div>
         </section>
       </main>
     </div>
   </div>
+
+  <script>
+    // Theme toggle functionality
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.classList.contains('dark');
+      
+      if (isDark) {
+        html.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+
+    // Load saved theme
+    function loadTheme() {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      
+      if (savedTheme === 'light' || (!savedTheme && !prefersDark)) {
+        document.documentElement.classList.remove('dark');
+      } else {
+        document.documentElement.classList.add('dark');
+      }
+    }
+
+    function logout() {
+      window.location.href = 'login.html';
+    }
+
+    // Initialize theme on page load
+    document.addEventListener('DOMContentLoaded', loadTheme);
+  </script>
 </body>
 </html>
