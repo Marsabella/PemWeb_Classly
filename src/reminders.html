@@ -45,6 +45,37 @@
     .bg-accent { background-color: var(--accent-color); }
     .bg-accent-hover:hover { background-color: var(--accent-hover); }
     .text-accent { color: var(--accent-color); }
+
+    /* Sidebar always full height */
+    .sidebar-fixed {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 16rem;
+      z-index: 40;
+    }
+
+    /* Main content with proper margin */
+    .main-content {
+      margin-left: 16rem;
+      min-height: 100vh;
+    }
+
+    @media (max-width: 1023px) {
+      .sidebar-fixed {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+      
+      .sidebar-fixed.open {
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-left: 0;
+      }
+    }
   </style>
 </head>
 <body class="bg-custom-primary text-custom-primary h-screen overflow-hidden font-sans">
@@ -109,8 +140,8 @@
         <svg id="theme-icon-light" class="w-4 h-4 mr-2 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
         </svg>
-        <span class="hidden dark:inline">Light Mode</span>
-        <span class="inline dark:hidden">Dark Mode</span>
+        <span class="theme-text-dark hidden dark:inline">Light Mode</span>
+        <span class="theme-text-light inline dark:hidden">Dark Mode</span>
       </button>
       <button onclick="logout()" class="flex items-center w-full px-4 py-2 text-custom-secondary hover:bg-custom-tertiary hover:text-custom-primary rounded-md text-sm font-medium transition-colors">
         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -167,6 +198,29 @@
   </div>
 
   <script>
+    // Tambahkan variabel untuk sidebar functionality yang hilang
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    const menuIcon = document.getElementById('menu-icon');
+    const closeIcon = document.getElementById('close-icon');
+    let sidebarOpen = false;
+
+    // Update theme text based on current mode
+    function updateThemeText() {
+      const isDark = document.documentElement.classList.contains('dark');
+      const darkText = document.querySelector('.theme-text-dark');
+      const lightText = document.querySelector('.theme-text-light');
+      
+      if (isDark) {
+        if (darkText) darkText.textContent = 'Light Mode';
+        if (lightText) lightText.textContent = 'Light Mode';
+      } else {
+        if (darkText) darkText.textContent = 'Dark Mode';
+        if (lightText) lightText.textContent = 'Dark Mode';
+      }
+    }
+
     // Theme toggle functionality
     function toggleTheme() {
       const html = document.documentElement;
@@ -179,6 +233,7 @@
         html.classList.add('dark');
         localStorage.setItem('theme', 'dark');
       }
+      updateThemeText();
     }
 
     // Load saved theme
@@ -191,25 +246,21 @@
       } else {
         document.documentElement.classList.add('dark');
       }
+      updateThemeText();
     }
 
-    // Sidebar functionality
-    const sidebarToggle = document.getElementById('sidebar-toggle');
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebar-overlay');
-    const menuIcon = document.getElementById('menu-icon');
-    const closeIcon = document.getElementById('close-icon');
-    let sidebarOpen = false;
-
+    // Perbaiki fungsi toggleSidebar untuk menambahkan logika yang hilang
     function toggleSidebar() {
       sidebarOpen = !sidebarOpen;
       if (sidebarOpen) {
         sidebar.classList.remove('-translate-x-full');
+        sidebar.classList.add('open');
         overlay.classList.remove('hidden');
         menuIcon.classList.add('hidden');
         closeIcon.classList.remove('hidden');
       } else {
         sidebar.classList.add('-translate-x-full');
+        sidebar.classList.remove('open');
         overlay.classList.add('hidden');
         menuIcon.classList.remove('hidden');
         closeIcon.classList.add('hidden');

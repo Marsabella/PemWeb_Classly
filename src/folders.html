@@ -47,36 +47,34 @@
     .text-accent { color: var(--accent-color); }
 
     /* Custom Styles */
+    /* Sidebar always full height */
     .sidebar-fixed {
       position: fixed;
-      left: 0;
       top: 0;
+      left: 0;
       height: 100vh;
-      width: 256px;
-      z-index: 50;
-      transform: translateX(-100%);
-      transition: transform 0.3s ease-in-out;
+      width: 16rem;
+      z-index: 40;
     }
 
-    .sidebar-fixed.open {
-      transform: translateX(0);
-    }
-
+    /* Main content with proper margin */
     .main-content {
-      flex: 1;
-      margin-left: 0;
-      transition: margin-left 0.3s ease-in-out;
+      margin-left: 16rem;
+      min-height: 100vh;
     }
 
-    @media (min-width: 1024px) {
+    @media (max-width: 1023px) {
       .sidebar-fixed {
-        transform: translateX(0);
-        position: sticky;
-        top: 0;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
       }
-
+      
+      .sidebar-fixed.open {
+        transform: translateX(0);
+      }
+      
       .main-content {
-        margin-left: 256px;
+        margin-left: 0;
       }
     }
   </style>
@@ -143,8 +141,8 @@
         <svg id="theme-icon-light" class="w-4 h-4 mr-2 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
         </svg>
-        <span class="hidden dark:inline">Light Mode</span>
-        <span class="inline dark:hidden">Dark Mode</span>
+        <span class="theme-text-dark hidden dark:inline">Light Mode</span>
+        <span class="theme-text-light inline dark:hidden">Dark Mode</span>
       </button>
       <button onclick="logout()" class="flex items-center w-full px-4 py-2 text-custom-secondary hover:bg-custom-tertiary hover:text-custom-primary rounded-md text-sm font-medium transition-colors">
         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -159,7 +157,7 @@
   <div class="main-content flex flex-col">
     <!-- Header -->
     <div class="flex items-center justify-between px-6 lg:px-8 py-6 border-b border-custom bg-custom-secondary">
-      <h1 class="text-2xl font-semibold text-custom-primary">Folder Materi</h1>
+      <h1 class="text-2xl font-semibold text-custom-primary">Your Folder</h1>
       <input type="file" id="uploadInput" multiple class="hidden">
       <button onclick="document.getElementById('uploadInput').click()" class="bg-accent bg-accent-hover text-white px-4 py-2 rounded-md text-sm font-medium flex items-center gap-2 transition-colors">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -185,6 +183,21 @@
   </div>
 
   <script>
+    // Update theme text based on current mode
+    function updateThemeText() {
+      const isDark = document.documentElement.classList.contains('dark');
+      const darkText = document.querySelector('.theme-text-dark');
+      const lightText = document.querySelector('.theme-text-light');
+      
+      if (isDark) {
+        if (darkText) darkText.textContent = 'Light Mode';
+        if (lightText) lightText.textContent = 'Light Mode';
+      } else {
+        if (darkText) darkText.textContent = 'Dark Mode';
+        if (lightText) lightText.textContent = 'Dark Mode';
+      }
+    }
+
     // Theme toggle functionality
     function toggleTheme() {
       const html = document.documentElement;
@@ -197,6 +210,7 @@
         html.classList.add('dark');
         localStorage.setItem('theme', 'dark');
       }
+      updateThemeText();
     }
 
     // Load saved theme
@@ -209,6 +223,7 @@
       } else {
         document.documentElement.classList.add('dark');
       }
+      updateThemeText();
     }
 
     // Sidebar functionality
@@ -222,12 +237,12 @@
     function toggleSidebar() {
       sidebarOpen = !sidebarOpen;
       if (sidebarOpen) {
-        sidebar.classList.remove('-translate-x-full');
+        sidebar.classList.add('open');
         overlay.classList.remove('hidden');
         menuIcon.classList.add('hidden');
         closeIcon.classList.remove('hidden');
       } else {
-        sidebar.classList.add('-translate-x-full');
+        sidebar.classList.remove('open');
         overlay.classList.add('hidden');
         menuIcon.classList.remove('hidden');
         closeIcon.classList.add('hidden');
