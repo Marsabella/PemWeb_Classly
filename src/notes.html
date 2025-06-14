@@ -45,6 +45,42 @@
     .bg-accent { background-color: var(--accent-color); }
     .bg-accent-hover:hover { background-color: var(--accent-hover); }
     .text-accent { color: var(--accent-color); }
+
+    /* Sidebar fixed position */
+    .sidebar-fixed {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 256px; /* Adjust as needed */
+      z-index: 100; /* Ensure it's above other content */
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar-fixed.open {
+      transform: translateX(0);
+    }
+
+    /* Main content padding to avoid overlap */
+    .main-content {
+      padding-left: 0;
+      transition: padding-left 0.3s ease;
+    }
+
+    .main-content.open {
+      padding-left: 256px; /* Same as sidebar width */
+    }
+
+    @media (min-width: 1024px) {
+      .sidebar-fixed {
+        transform: translateX(0); /* Show sidebar on larger screens */
+      }
+
+      .main-content {
+        padding-left: 256px; /* Account for sidebar width */
+      }
+    }
   </style>
 </head>
 <body class="bg-custom-primary text-custom-primary h-screen overflow-hidden font-sans">
@@ -63,7 +99,7 @@
   <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden lg:hidden"></div>
 
   <!-- Collapsible Sidebar -->
-  <div id="sidebar" class="fixed left-0 top-0 h-full w-64 bg-custom-secondary border-r border-custom z-50 transform -translate-x-full transition-transform duration-300 lg:translate-x-0 lg:static lg:transform-none flex flex-col">
+  <div id="sidebar" class="sidebar-fixed bg-custom-secondary border-r border-custom flex flex-col lg:transform-none">
     <!-- Logo -->
     <div class="p-6">
       <h2 class="text-custom-primary text-xl font-bold">Classly</h2>
@@ -102,15 +138,14 @@
     
     <!-- Theme Toggle & Logout -->
     <div class="p-4 border-t border-custom space-y-2">
-      <button onclick="toggleTheme()" class="flex items-center w-full px-4 py-2 text-custom-secondary hover:bg-custom-tertiary hover:text-custom-primary rounded-md text-sm font-medium transition-colors">
+      <button id="theme-toggle" class="flex items-center w-full px-4 py-2 text-custom-secondary hover:bg-custom-tertiary hover:text-custom-primary rounded-md text-sm font-medium transition-colors">
         <svg id="theme-icon-dark" class="w-4 h-4 mr-2 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
         </svg>
         <svg id="theme-icon-light" class="w-4 h-4 mr-2 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
         </svg>
-        <span class="hidden dark:inline">Light Mode</span>
-        <span class="inline dark:hidden">Dark Mode</span>
+        <span id="theme-text">Toggle Theme</span>
       </button>
       <button onclick="logout()" class="flex items-center w-full px-4 py-2 text-custom-secondary hover:bg-custom-tertiary hover:text-custom-primary rounded-md text-sm font-medium transition-colors">
         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -122,7 +157,7 @@
   </div>
 
   <!-- Main Content -->
-  <div class="flex-1 flex flex-col lg:ml-64">
+  <div class="main-content flex flex-col">
     <div class="p-6 lg:p-8">
       <h1 class="text-2xl font-semibold mb-6 text-custom-primary">Your Notes</h1>
 
@@ -172,29 +207,47 @@
 
   <script>
     // Theme toggle functionality
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIconDark = document.getElementById('theme-icon-dark');
+    const themeIconLight = document.getElementById('theme-icon-light');
+    const themeText = document.getElementById('theme-text');
+
     function toggleTheme() {
-      const html = document.documentElement;
-      const isDark = html.classList.contains('dark');
-      
-      if (isDark) {
-        html.classList.remove('dark');
-        localStorage.setItem('theme', 'light');
-      } else {
-        html.classList.add('dark');
-        localStorage.setItem('theme', 'dark');
-      }
+        const html = document.documentElement;
+        const isDark = html.classList.contains('dark');
+
+        if (isDark) {
+            html.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+            themeIconDark.classList.add('hidden');
+            themeIconLight.classList.remove('hidden');
+            themeText.textContent = 'Toggle Dark Mode';
+        } else {
+            html.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+            themeIconDark.classList.remove('hidden');
+            themeIconLight.classList.add('hidden');
+            themeText.textContent = 'Toggle Light Mode';
+        }
     }
 
-    // Load saved theme
+    themeToggle.addEventListener('click', toggleTheme);
+
     function loadTheme() {
-      const savedTheme = localStorage.getItem('theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      
-      if (savedTheme === 'light' || (!savedTheme && !prefersDark)) {
-        document.documentElement.classList.remove('dark');
-      } else {
-        document.documentElement.classList.add('dark');
-      }
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if ((savedTheme === 'dark') || (savedTheme === null && prefersDark)) {
+            document.documentElement.classList.add('dark');
+            themeIconDark.classList.remove('hidden');
+            themeIconLight.classList.add('hidden');
+            themeText.textContent = 'Toggle Light Mode';
+        } else {
+            document.documentElement.classList.remove('dark');
+            themeIconDark.classList.add('hidden');
+            themeIconLight.classList.remove('hidden');
+            themeText.textContent = 'Toggle Dark Mode';
+        }
     }
 
     // Sidebar functionality
@@ -203,17 +256,20 @@
     const overlay = document.getElementById('sidebar-overlay');
     const menuIcon = document.getElementById('menu-icon');
     const closeIcon = document.getElementById('close-icon');
+    const mainContent = document.querySelector('.main-content');
     let sidebarOpen = false;
 
     function toggleSidebar() {
       sidebarOpen = !sidebarOpen;
       if (sidebarOpen) {
-        sidebar.classList.remove('-translate-x-full');
+        sidebar.classList.add('open');
+        mainContent.classList.add('open');
         overlay.classList.remove('hidden');
         menuIcon.classList.add('hidden');
         closeIcon.classList.remove('hidden');
       } else {
-        sidebar.classList.add('-translate-x-full');
+        sidebar.classList.remove('open');
+        mainContent.classList.remove('open');
         overlay.classList.add('hidden');
         menuIcon.classList.remove('hidden');
         closeIcon.classList.add('hidden');

@@ -45,12 +45,34 @@
     .bg-accent { background-color: var(--accent-color); }
     .bg-accent-hover:hover { background-color: var(--accent-hover); }
     .text-accent { color: var(--accent-color); }
+
+    /* Sidebar always full height */
+    .sidebar-fixed {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 16rem;
+      z-index: 40;
+    }
+
+    /* Main content with proper margin */
+    .main-content {
+      margin-left: 16rem;
+      min-height: 100vh;
+    }
+
+    @media (max-width: 1023px) {
+      .main-content {
+        margin-left: 0;
+      }
+    }
   </style>
 </head>
 <body class="bg-custom-primary text-custom-primary h-screen overflow-hidden font-sans">
   <div class="flex h-screen">
     <!-- Sidebar -->
-    <div class="w-64 bg-custom-secondary border-r border-custom flex flex-col">
+    <div class="sidebar-fixed bg-custom-secondary border-r border-custom flex flex-col">
       <!-- Logo -->
       <div class="p-6">
         <h2 class="text-custom-primary text-xl font-bold">Classly</h2>
@@ -96,8 +118,8 @@
           <svg id="theme-icon-light" class="w-4 h-4 mr-2 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
           </svg>
-          <span class="hidden dark:inline">Light Mode</span>
-          <span class="inline dark:hidden">Dark Mode</span>
+          <span class="theme-text-dark hidden dark:inline">Light Mode</span>
+          <span class="theme-text-light inline dark:hidden">Dark Mode</span>
         </button>
         <button onclick="logout()" class="flex items-center w-full px-4 py-2 text-custom-secondary hover:bg-custom-tertiary hover:text-custom-primary rounded-md text-sm font-medium transition-colors">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -109,22 +131,12 @@
     </div>
 
     <!-- Main Content -->
-    <div class="flex-1 flex flex-col bg-custom-primary">
+    <div class="main-content flex flex-col bg-custom-primary">
       <!-- Header -->
       <header class="flex justify-between items-center px-8 py-6 border-b border-custom bg-custom-secondary">
         <h1 class="text-xl font-medium text-custom-primary">
           Hallo, <span id="username">marsabella fara pramidya</span>
         </h1>
-        <nav>
-          <ul class="flex gap-6 items-center text-sm font-medium text-custom-secondary">
-            <li>
-              <a href="#" class="hover:text-custom-primary transition-colors">Help</a>
-            </li>
-            <li>
-              <a href="#" class="hover:text-custom-primary transition-colors">Account</a>
-            </li>
-          </ul>
-        </nav>
       </header>
 
       <!-- Content Area -->
@@ -185,6 +197,22 @@
         html.classList.add('dark');
         localStorage.setItem('theme', 'dark');
       }
+      updateThemeText();
+    }
+
+    // Update theme text based on current mode
+    function updateThemeText() {
+      const isDark = document.documentElement.classList.contains('dark');
+      const darkText = document.querySelector('.theme-text-dark');
+      const lightText = document.querySelector('.theme-text-light');
+      
+      if (isDark) {
+        if (darkText) darkText.textContent = 'Light Mode';
+        if (lightText) lightText.textContent = 'Light Mode';
+      } else {
+        if (darkText) darkText.textContent = 'Dark Mode';
+        if (lightText) lightText.textContent = 'Dark Mode';
+      }
     }
 
     // Load saved theme
@@ -197,6 +225,7 @@
       } else {
         document.documentElement.classList.add('dark');
       }
+      updateThemeText();
     }
 
     function logout() {
