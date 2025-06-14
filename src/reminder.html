@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reminder Settings - Classly</title>
+  <link href="./output.css" rel="stylesheet">
+</head>
+<body class="bg-[#0f0f0f] text-white font-sans min-h-screen flex items-center justify-center p-4">
+
+  <div class="bg-[#1a1a1a] border border-[#2d2d2d] rounded-xl shadow-md w-full max-w-xl p-8">
+    <h1 class="text-2xl font-semibold text-center mb-6 text-white">Pengaturan Reminder Kelas</h1>
+
+    <form id="reminderForm" class="space-y-6">
+      <div>
+        <label for="reminderTime" class="block text-sm font-medium text-[#ccc] mb-1">Notifikasi muncul sebelum kelas dimulai:</label>
+        <select id="reminderTime" class="w-full px-4 py-2 bg-[#2d2d2d] text-white border border-gray-600 rounded-md focus:outline-none">
+          <option value="30">30 menit</option>
+          <option value="25">25 menit</option>
+          <option value="20">20 menit</option>
+          <option value="15">15 menit</option>
+          <option value="10">10 menit</option>
+          <option value="5">5 menit</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="repeat" class="block text-sm font-medium text-[#ccc] mb-1">Ingin reminder berulang sampai kelas dimulai?</label>
+        <select id="repeat" class="w-full px-4 py-2 bg-[#2d2d2d] text-white border border-gray-600 rounded-md focus:outline-none">
+          <option value="no">Tidak, hanya satu kali</option>
+          <option value="yes">Ya, ulangi terus</option>
+        </select>
+      </div>
+
+      <div id="repeatIntervalContainer" class="hidden">
+        <label for="repeatInterval" class="block text-sm font-medium text-[#ccc] mb-1">Ulangi setiap:</label>
+        <select id="repeatInterval" class="w-full px-4 py-2 bg-[#2d2d2d] text-white border border-gray-600 rounded-md focus:outline-none">
+          <option value="5">5 menit</option>
+          <option value="10">10 menit</option>
+        </select>
+      </div>
+
+      <button type="submit" class="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md font-medium transition">Simpan Pengaturan</button>
+    </form>
+
+    <div id="savedMessage" class="hidden text-center mt-6 text-green-400 font-semibold">Pengaturan reminder berhasil disimpan!</div>
+  </div>
+
+  <script>
+    const repeat = document.getElementById("repeat");
+    const repeatIntervalContainer = document.getElementById("repeatIntervalContainer");
+
+    repeat.addEventListener("change", () => {
+      if (repeat.value === "yes") {
+        repeatIntervalContainer.classList.remove("hidden");
+      } else {
+        repeatIntervalContainer.classList.add("hidden");
+      }
+    });
+
+    const form = document.getElementById("reminderForm");
+    const savedMessage = document.getElementById("savedMessage");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      savedMessage.classList.remove("hidden");
+      setTimeout(() => {
+        savedMessage.classList.add("hidden");
+      }, 3000);
+    });
+  </script>
+</body>
+</html>

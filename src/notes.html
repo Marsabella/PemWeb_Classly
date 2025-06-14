@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Notes - Classly</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#0f0f0f] text-white font-sans min-h-screen flex flex-col relative">
+
+  <!-- Halaman utama catatan -->
+  <div id="mainPage" class="p-6">
+    <h1 class="text-3xl font-semibold mb-6">Your Notes</h1>
+
+    <!-- Pesan jika belum ada catatan -->
+    <div id="emptyMessage" class="text-gray-400 text-center mb-6">Belum ada catatan, ayo buat catatan pertamamu!</div>
+
+    <!-- Daftar catatan -->
+    <div id="notesList" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+  </div>
+
+  <!-- Tombol tambah catatan -->
+  <button
+    id="addNoteBtn"
+    class="fixed bottom-6 right-6 w-16 h-16 rounded-full bg-indigo-600 text-white text-3xl shadow-lg flex items-center justify-center group hover:bg-indigo-800 transition duration-300"
+    title="Tambahkan catatan"
+  >
+    +
+    <span class="absolute bottom-20 right-0 bg-gray-800 text-sm text-white px-3 py-1 rounded-md opacity-0 group-hover:opacity-100 transition">
+      Tambahkan catatan
+    </span>
+  </button>
+
+  <!-- Halaman tambah catatan -->
+  <!-- Halaman tambah catatan bergaya Notion -->
+<div id="notePage" class="hidden p-6 w-full max-w-3xl mx-auto">
+  <div class="space-y-4">
+    <div>
+      <h2 contenteditable="true" id="editableTitle" class="text-3xl font-semibold text-white outline-none focus:ring-2 focus:ring-indigo-500">
+        Judul Catatan
+      </h2>
+    </div>
+    <div>
+      <div contenteditable="true" id="editableContent" class="min-h-[200px] text-base text-gray-200 whitespace-pre-wrap outline-none focus:ring-2 focus:ring-indigo-500 bg-[#1e1e1e] p-3 rounded-md border border-gray-700">
+        Tulis isi catatanmu di sini...
+      </div>
+    </div>
+    <div>
+      <label class="block text-sm mb-1 text-gray-300">Upload Gambar (Opsional):</label>
+      <input type="file" id="noteImage" accept="image/*" class="text-white" />
+    </div>
+    <div id="imagePreviewContainer" class="mt-4"></div>
+
+    <div class="flex justify-end gap-3 pt-2">
+      <button type="button" id="cancelBtn" class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition">Batal</button>
+      <button id="saveBtn" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">Simpan</button>
+    </div>
+  </div>
+</div>
+
+  <script>
+    const addNoteBtn = document.getElementById('addNoteBtn');
+    const noteForm = document.getElementById('noteForm');
+    const notesList = document.getElementById('notesList');
+    const notePage = document.getElementById('notePage');
+    const mainPage = document.getElementById('mainPage');
+    const emptyMessage = document.getElementById('emptyMessage');
+    const cancelBtn = document.getElementById('cancelBtn');
+
+    // Tampilkan halaman tambah catatan
+    addNoteBtn.onclick = () => {
+      notePage.classList.remove('hidden');
+      mainPage.classList.add('hidden');
+    };
+
+    // Batal dan kembali ke halaman utama
+    cancelBtn.onclick = () => {
+      notePage.classList.add('hidden');
+      mainPage.classList.remove('hidden');
+    };
+
+    // Simpan catatan
+     const saveBtn = document.getElementById('saveBtn');
+  const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+
+  // Saat klik "Simpan"
+  saveBtn.onclick = function () {
+    const title = document.getElementById('editableTitle').innerText.trim();
+    const content = document.getElementById('editableContent').innerText.trim();
+    const imageInput = document.getElementById('noteImage');
+    const reader = new FileReader();
+
+    const card = document.createElement('div');
+    card.className = 'bg-[#1e1e1e] p-4 rounded-lg shadow hover:shadow-lg transition';
+    card.innerHTML = `
+      <h3 class="text-lg font-semibold mb-2">${title || 'Tanpa Judul'}</h3>
+      <p class="text-sm text-gray-300 mb-2 whitespace-pre-wrap">${content || 'Tanpa isi'}</p>
+    `;
+
+    function appendCardAndReset(imageURL = null) {
+      if (imageURL) {
+        const img = document.createElement('img');
+        img.src = imageURL;
+        img.alt = "Note Image";
+        img.className = "mt-2 rounded-lg max-h-48 object-cover";
+        card.appendChild(img);
+      }
+      notesList.appendChild(card);
+      document.getElementById('notePage').classList.add('hidden');
+      document.getElementById('mainPage').classList.remove('hidden');
+      document.getElementById('editableTitle').innerText = 'Judul Catatan';
+      document.getElementById('editableContent').innerText = 'Tulis isi catatanmu di sini...';
+      document.getElementById('noteImage').value = '';
+      imagePreviewContainer.innerHTML = '';
+      emptyMessage.classList.add('hidden');
+    }
+
+    if (imageInput.files[0]) {
+      reader.onload = function (e) {
+        appendCardAndReset(e.target.result);
+      };
+      reader.readAsDataURL(imageInput.files[0]);
+    } else {
+      appendCardAndReset();
+    }
+  };
+  </script>
+</body>
+</html>
